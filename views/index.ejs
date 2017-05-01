@@ -35,8 +35,8 @@
                 <div class="col-sm-12">
                     <form method="post" action="carpool_api/trip/remove">
                         <input type="hidden" name="tripid" value="<%= trips[k]._id %>" class="form-control">
-    		            <a class="col-sm-9 btn btn-default" href="trip?tripid=<%= trips[k]._id %>" value="<%= trips[k]._id %>" gps="<%= gpscoords %>"><%=  trips[k].origin.name + " -> " + trips[k].destination.name + " (" + DateToOutput(trips[k].time) + ")" %></a>
-                        <button id="submitbutton" class="col-sm-3 btn btn-primary" type="submit">Remove</button>  
+    		            <a class="col-xs-9 btn btn-default" href="trip?tripid=<%= trips[k]._id %>" value="<%= trips[k]._id %>" gps="<%= gpscoords %>"><%=  trips[k].origin.name + " -> " + trips[k].destination.name + " (" + DateToOutput(trips[k].time) + ")" %></a>
+                        <button id="submitbutton" class="col-xs-3 btn btn-primary" type="submit">Remove</button>  
                     </form>
     	       </div>
     	    </div>
@@ -45,7 +45,7 @@
     <% } else { %>
     	<div class="row">
             <div class="col-sm-12">
-                <button class="col-sm-12 btn btn-default disabled">No planned trips found</button>
+                <button class="col-xs-12 btn btn-default disabled">No planned trips found</button>
             </div>
         </div>
     <% } %>
