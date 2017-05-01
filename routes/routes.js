@@ -78,7 +78,7 @@ router.use('/iplocation_api', iplocationRoutes);
 router.use('/digitraffic_api', digitrafficRoutes);
 router.use('/ajoneuvodata_api', ajoneuvodataRoutes);
 router.use('/carpool_api', carPoolRoutes);
-router.use(atobRoutes);
+router.use('/atob_api', atobRoutes);
 
 
 //denied page

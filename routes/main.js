@@ -223,6 +223,47 @@ router.get('/trip', function(req, res) {
 });
 
 
+// =====================================
+// DIRECTIONS ==========================
+// =====================================
+router.get('/atob', function(req, res) {
+
+    //HOST_URL = res.locals.hosturl;
+    var origin = req.query.origin;
+
+    var destination = req.query.destination;
+    var travelmode = req.query.travelmode || 'DRIVING';
+    var vehicleId = '';
+    var userId = '';
+    if (req.user) {
+        vehicleId = req.user.vehicleIdentificationNumber || '';
+        userId = req.user.id || '';
+    }
+	var time = req.query.time || '';
+	
+	//atob api
+	request({
+		url: res.locals.hosturl + encodeURI('/atob_api/atob?origin=' + origin + '&destination=' + destination + '&travelmode=' + travelmode + '&vehicleid=' + vehicleId + '&userid=' + userId + '&time=' + time),
+		json: true
+	}, function(error, response, body) {
+
+		if (error) {
+			console.log(error);
+		}
+
+		return res.render('atob.ejs', {
+			errors: req.flash('error'),
+			message: req.flash('message'),
+			origin: req.query.origin,
+			destination: req.query.destination,
+			travelmode: travelmode,
+			timevar: req.query.time,
+			apiresponse: body
+		}); // load the ejs file
+	});
+	//atob api end
+});
+
 
 
 module.exports = router;

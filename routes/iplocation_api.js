@@ -19,10 +19,20 @@ router.get('/locate', function(req, res, next) {
     }, function(error, response, body) {
 
         if (!error && response.statusMessage == "OK") {
-            var apijson = {
-                status: "OK",
-                result: parseResponseBody(body)
-            };
+			var locationinfo = parseResponseBody(body);
+			 var apijson = {
+				status: "pending",
+				result: locationinfo
+			};
+			if (locationinfo && locationinfo.city && locationinfo.country && locationinfo.latitude && locationinfo.longtitude)
+			{
+				apijson.status = "OK";
+			}
+			else
+			{
+				apijson.status = "problem";
+			}
+           
             res.send(JSON.stringify(apijson));
         }
         else {
