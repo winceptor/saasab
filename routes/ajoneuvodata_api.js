@@ -5,8 +5,6 @@ var request = require("request");
 
 var Vehicle = require('../models/vehicle');
 
-var ObjectId = require("mongodb").ObjectId;
-
 var DEFAULT_CO2 = 150;
 
 var EXAMPLE_C02_VALUES = [

@@ -94,14 +94,6 @@ instagramAPI.userSelf().then(function(result) {
 */
 
 // configuration ===============================================================
-//Error handling, src: http://stackoverflow.com/a/14049430
-mongoose.connection.on("open", function(ref) {
-	return console.log("Connected to mongo server!".green);
-});
-mongoose.connection.on("error", function(err) {
-	console.log("Could not connect to mongo server!".yellow);
-	return console.log(err.message.red);
-});
 
 app.use(compression({
 	level: 3
