@@ -18,6 +18,8 @@ router.get('/atob', function(req, res) {
     var travelmode = req.query.travelmode || 'DRIVING';
     var vehicleId = req.query.vehicleid || '';
     var userId = req.query.userid || '';
+	
+	var clientip = req.query.ip || '';
 
     /*if (req.user) {
         vehicleId = req.user.vehicleIdentificationNumber || '';
@@ -43,7 +45,7 @@ router.get('/atob', function(req, res) {
 
     //ip api
     request({
-        url: res.locals.hosturl + encodeURI('/iplocation_api/locate?ip=' + res.locals.clientip),
+        url: res.locals.hosturl + encodeURI('/iplocation_api/locate?ip=' + clientip),
         json: true
     }, function(error, response, body) {
 
@@ -58,7 +60,6 @@ router.get('/atob', function(req, res) {
 
             var iplocation = apiresponse.iplocation.result;
 			
-			console.log(apiresponse.iplocation);
 			if (apiresponse.iplocation.status == "OK")
 			{
 				origin = iplocation.city + ", " + iplocation.country;

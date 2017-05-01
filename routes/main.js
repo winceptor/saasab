@@ -230,8 +230,10 @@ router.get('/atob', function(req, res) {
 
     //HOST_URL = res.locals.hosturl;
     var origin = req.query.origin;
-
-    var destination = req.query.destination;
+	
+	var autolocation = req.query.autolocation || '';
+	
+    var destination = req.query.destination || '';
     var travelmode = req.query.travelmode || 'DRIVING';
     var vehicleId = '';
     var userId = '';
@@ -241,9 +243,11 @@ router.get('/atob', function(req, res) {
     }
 	var time = req.query.time || '';
 	
+	var clientip = res.locals.clientip;
+	
 	//atob api
 	request({
-		url: res.locals.hosturl + encodeURI('/atob_api/atob?origin=' + origin + '&destination=' + destination + '&travelmode=' + travelmode + '&vehicleid=' + vehicleId + '&userid=' + userId + '&time=' + time),
+		url: res.locals.hosturl + encodeURI('/atob_api/atob?origin=' + origin + '&destination=' + destination + '&travelmode=' + travelmode + '&vehicleid=' + vehicleId + '&userid=' + userId + '&time=' + time + '&ip=' + clientip + '&autolocation=' + autolocation),
 		json: true
 	}, function(error, response, body) {
 
