@@ -39,7 +39,7 @@ var express = require('express');
 var app = express();
 
 var http = require('http');
-var https = require('https');
+//var https = require('https');
 
 var mongoose = require('mongoose');
 var passport = require('passport');
@@ -68,13 +68,7 @@ var credentials = {
 };
 */
 
-var files = require('./routes/files');
 var logger = require('./routes/logger');
-
-var translator = require('./routes/translator');
-var catparser = require('./routes/catparser');
-
-//var mapping = require('./routes/mapping');
 
 var routes = require('./routes/routes');
 
@@ -159,10 +153,6 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 
 //core middleware
 app.use(logger);
-
-//additional core middleware
-app.use(translator);
-app.use(catparser);
 
 //pages
 app.use(routes);

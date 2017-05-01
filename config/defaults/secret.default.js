@@ -28,10 +28,10 @@ module.exports = {
 	//GOOGLEMAPS
 	google_maps_key: '',
 	googleAuth: {
-		'clientID': '',
-		'clientSecret': '',
-		'callbackURL': ''
+		'clientID': 'ENTERKEY',
+		'clientSecret': 'ENTERSECRET',
+		'callbackURL': 'https://localhost/google/api/siteverify'
 	},
 
-	gmail_pass: ''
+	gmail_pass: 'ENTERPASS'
 };
