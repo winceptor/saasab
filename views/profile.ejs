@@ -1,0 +1,65 @@
+<!-- views/profile.ejs -->
+
+<% layout('layout') -%>
+<div class="container">
+
+    <div class="page-header text-center">
+        <h1><span class="fa fa-anchor"></span> Profile Page</h1>
+        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+    </div>
+
+    <div class="row">
+
+        <!-- LOCAL INFORMATION -->
+        <div class="col-sm-6">
+            <div class="well">
+                <h3><span class="fa fa-user"></span> Local</h3>
+
+                    <p>
+                        <strong>id</strong>: <%= user._id %><br>
+                        <% if (user.google.token && user.google.token!="") { %>
+                            <strong>email</strong>: <%= user.local.email %><br>
+                            <strong>password</strong>: <%= user.local.password %>
+                        <% } else { %>
+                            <p>
+                                <strong>No local login</strong>
+                            </p>
+                        <% } %>
+                    </p>
+                    
+                    <form action="/updatevin" method="post">
+                        <label for="vin">Vehicle identication number:</label>
+                        <input id="userid" name="userid" type="hidden" value="<%= user._id %>">
+                        <input id="vin" name="vin" value="<%= user.vehicleIdentificationNumber || "" %>" type="text" list="suggestions" placeholder="Search..." onkeyup="showSuggestions(this.value);">
+                        <datalist id="suggestions"></datalist>
+                        <input type="submit">
+                    </form>
+
+            </div>
+        </div>
+        
+        
+        <!-- GOOGLE INFORMATION -->
+        <div class="col-sm-6">
+            <div class="well">
+                <h3 class="text-danger"><span class="fa fa-google-plus"></span> Google</h3>
+                    <% if (user.google.token && user.google.token!="") { %>
+                    
+                        <p>
+                            <strong>id</strong>: <%= user.google.id %><br>
+                            <strong>token</strong>: <%= user.google.token %><br>
+                            <strong>email</strong>: <%= user.google.email %><br>
+                            <strong>name</strong>: <%= user.google.name %>
+                        </p>
+                    <% } else { %>
+                        <p>
+                            <strong>No google login</strong>
+                        </p>
+                    <% } %>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>

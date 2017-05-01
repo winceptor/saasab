@@ -1,0 +1,54 @@
+<% if (typeof origin == "undefined") { origin = ""; } %>
+<% if (typeof destination == "undefined") { destination = ""; } %>
+<% if (typeof timevar == "undefined") { timevar = ""; } %>
+
+<% var currentorigin = "Autolocate"; if (apiresponse && apiresponse.route && apiresponse.route.status=="OK") { var currentorigin = apiresponse.route.result.start_address; }%>
+
+
+<!-- searchbar -->
+
+<% var iplocation = false; if (apiresponse && apiresponse.iplocation && apiresponse.iplocation.status=="OK") { var iplocation = apiresponse.iplocation.result; }%>
+<div style="display: none;">
+    <span><%=  JSON.stringify(iplocation)  %></span>
+</div>
+
+<script src="/js/locator.js"></script>
+
+<div class="container">
+	<div class="row">
+		<form class="form-horizontal" method="get" action="atob">
+			<input id="autolocation" type="hidden" name="autolocation" value="">
+			<input id="iplocation" type="hidden" name="iplocation" value="<%= iplocation.city + ", " + iplocation.country %>">
+			<input id="gmtoffset" type="hidden" name="gmtoffset" value="0">
+			
+			<div class="col-sm-3 vertical-spacing">
+				<input id="datetimepicker" type='text' class="form-control datetimepicker" name="time" value="<% if (timevar) { %><%= timevar %><% } %>" placeholder="Date and time... (GMT+0)" />
+           	</div>	
+			<div class="col-sm-4 vertical-spacing">
+				<input id="origininput" type="text" class="form-control" name="origin" value="<%= origin %>" placeholder="Navigate from... (<%= currentorigin %>)" onFocus="this.select()" >
+			</div>	
+			<div class="col-sm-5 vertical-spacing">
+				<div class="input-group">
+					<input id="destinationinput" type="text" class="form-control" name="destination" value="<%= destination %>" placeholder="Navigate to..." onFocus="this.select()" autofocus>
+
+					<span class="input-group-btn">
+						<button id="submitbutton" class="btn btn-primary" type="submit">Go</button>
+					</span>
+				
+				</div>
+			</div>
+		</form>
+		<script>
+			var d = new Date()
+			var gmtoffset = d.getTimezoneOffset();
+			document.getElementById('gmtoffset').value = gmtoffset;
+			var gmt = gmtoffset/60*-1;
+			if (gmt>0) {
+				gmt = "+" + gmt;	
+			}
+			document.getElementById('datetimepicker').placeholder = "Date and time... (GMT" + gmt + ")";
+		</script>
+
+	</div>
+</div>
+

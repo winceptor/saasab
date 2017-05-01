@@ -1,0 +1,134 @@
+<!-- views/index.ejs -->
+<% var currenttrip = false; if (apiresponse && apiresponse.trip && apiresponse.trip.status=="OK") { var currenttrip = apiresponse.trip.result; }%>
+
+<% layout('layout') -%>
+
+<% if (currenttrip) { %>
+    <div class="container">
+    	<div class="row">
+    		<div class="col-sm-12">
+    		    <p>Displaying trip details for trip: <%= currenttrip._id %></p>
+    		</div>
+    	</div>
+    </div>
+    
+
+    
+    <div class="container">
+    	<div class="row">
+            <form method="post" action="carpool_api/trip/remove">
+                <input type="hidden" name="tripid" value="<%= currenttrip._id %>" class="form-control">
+                
+        		<div class="col-sm-6 vertical-spacing">
+        			
+        			<input type="text" name="origin" class="form-control" value="<%= currenttrip.origin.name %>" placeholder="Navigate from..."  disabled>
+        			
+        		</div>	
+        		<div class="col-sm-6 vertical-spacing">
+        			<div class="input-group">
+            			<input type="text" name="destination" class="form-control" value="<%= currenttrip.destination.name %>" placeholder="Navigate to..."  disabled>
+            			
+            			<span class="input-group-btn">
+        					<button id="submitbutton" class="btn btn-primary" type="submit">Remove</button>
+        				</span>
+            		</div>		
+        		</div>	
+    				
+    	</div>
+    </div>	
+    
+    <hr>
+    
+    <div class="container">
+        <div class="row">
+          <div  class="col-xs-12">
+            <div id="map"></div>
+          </div>
+        </div>
+            
+        <script>
+        
+              function initMap() {
+                var directionsService = new google.maps.DirectionsService;
+                var directionsDisplay = new google.maps.DirectionsRenderer;
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 3,
+                    center: {
+                        lat: 61.9241,
+                        lng: 25.7482
+                    }
+                });
+                directionsDisplay.setMap(map);
+                
+                //console.log();
+                //var mapdata = ;
+                //console.log("Server:");
+                //console.log(mapdata.result);
+                //var parsedresponse = JSON.parse('');
+                //console.log(parsedresponse);
+                //directionsDisplay.setDirections( mapdata.result );
+        
+                var onChangeHandler = function() {
+                    calculateAndDisplayRoute(directionsService, directionsDisplay);
+                };
+        
+                //document.getElementById('end').addEventListener('change', onChangeHandler);
+        
+                calculateAndDisplayRoute(directionsService, directionsDisplay);
+            }
+        
+            function calculateAndDisplayRoute(directionsService, directionsDisplay, position) {
+                     //var origingps = currenttrip.origin.lat + "";
+                    //var origingps = new google.maps.LatLng(currenttrip.origin.lat, currenttrip.origin.long);
+                    //var destinationgps = tripdata[1];
+                    //var destinationgps = new google.maps.LatLng(currenttrip.destination.lat, currenttrip.destination.long);
+        
+                directionsService.route({
+                    //origin: document.getElementById('start').value,
+                    //destination: document.getElementById('end').value,
+                    
+                    
+                    origin: "<%= currenttrip.origin.lat + "," + currenttrip.origin.long %>",
+                    destination: "<%= currenttrip.destination.lat + "," + currenttrip.destination.long %>",
+                    travelMode: "<%= 'DRIVING' %>"
+                }, function(response, status) {
+                    if (status === 'OK') {
+                        directionsDisplay.setDirections(response);
+                        //console.log("Client:");
+                        //console.log(response);
+                    }
+                    else {
+                        window.alert('Directions request failed due to ' + status);
+                    }
+                });
+        
+            }
+        </script>
+        <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=<%= googlemapskey %>&callback=initMap">
+        </script>
+    
+    </div>
+<% } %>
+
+<hr>
+
+<div class="container">
+
+    <% if (currenttrip) { %>
+        <div class="row">
+            <div class="col-sm-12">
+                <textfield>
+                    <%= JSON.stringify(currenttrip) %>
+                </textfield>
+            </div>
+        </div>
+    <% } else { %>
+    	<div class="row">
+            <div class="col-sm-12">
+                <button class="col-sm-12 btn btn-default disabled">No trip found</button>
+            </div>
+        </div>
+    <% } %>
+</div>
+    

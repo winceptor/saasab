@@ -1,0 +1,52 @@
+<!-- views/index.ejs -->
+<% var usertrips = false; if (apiresponse && apiresponse.usertrips && apiresponse.usertrips.status=="OK") { var usertrips = apiresponse.usertrips.result; }%>
+
+<div style="display: none;">
+    <span><%=  JSON.stringify(apiresponse.status)  %></span>
+    <span><%=  JSON.stringify(apiresponse.usertrips)  %></span>
+</div>
+
+<% layout('layout') -%>
+
+<div class="container">
+	<div class="row">
+		<div class="col-sm-12">
+		    <p>Plan a new trip</p>
+		</div>
+	</div>
+</div>
+
+<% include /directionsinput %>
+
+<hr>
+
+<div class="container">
+    
+    <div class="row">
+		<div class="col-sm-12">
+		    <p>Your planned trips:</p>
+		</div>
+	</div>
+
+    <% if (usertrips && usertrips.length>0) { var trips = usertrips; %>
+
+        <% for(var k in trips){ var gpscoords = trips[k].origin.lat + "," + trips[k].origin.long + ";" + trips[k].destination.lat + "," + trips[k].destination.long; %>
+            <div class="row">
+                <div class="col-sm-12">
+                    <form method="post" action="carpool_api/trip/remove">
+                        <input type="hidden" name="tripid" value="<%= trips[k]._id %>" class="form-control">
+    		            <a class="col-sm-9 btn btn-default" href="trip?tripid=<%= trips[k]._id %>" value="<%= trips[k]._id %>" gps="<%= gpscoords %>"><%=  trips[k].origin.name + " -> " + trips[k].destination.name + " (" + DateToOutput(trips[k].time) + ")" %></a>
+                        <button id="submitbutton" class="col-sm-3 btn btn-primary" type="submit">Remove</button>  
+                    </form>
+    	       </div>
+    	    </div>
+    	<% } %>
+
+    <% } else { %>
+    	<div class="row">
+            <div class="col-sm-12">
+                <button class="col-sm-12 btn btn-default disabled">No planned trips found</button>
+            </div>
+        </div>
+    <% } %>
+</div>

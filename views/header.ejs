@@ -1,0 +1,23 @@
+<div class="container">
+
+    <div class="row">
+        <div class="col-xs-12">
+            <a class="btn btn-default" href="/"><span class="fa fa-home"></span> Home</a>
+            <div class="pull-right">
+                <% if (user) { %>
+                    <a href="/profile" class="btn btn-default"><span class="fa fa-user"></span> <%= user.google.email || user.local.email || "Profile" %></a>
+                    <a href="/logout" class="btn btn-default btn-warning"><span class="fa fa-user"></span> Logout</a>
+                    <% if (!user.google.id || user.google.id=="") { %>
+                        <a href="/auth/google" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google link</a>
+                    <% } %>
+                <% } else { %>
+                    <a href="/login" class="btn btn-default"><span class="fa fa-user"></span> Local Login</a>
+                    <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Local Signup</a>
+                    <a href="/auth/google" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google login</a>
+                <% } %>
+    
+            </div>
+        </div>
+    </div>
+
+</div>
